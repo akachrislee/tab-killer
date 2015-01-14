@@ -13,8 +13,9 @@ TabKiller.prototype.find_all_tabs_with_url = function() {
 };
 
 
-$('.kill-reddit-js').on('click', function(e){
-  var tk = new TabKiller('reddit.com');
-  tk.find_all_tabs_with_url();
+$(document).ready(function(){
+  $('.kill-reddit-js').on('click', function(e){
+    var tk = new TabKiller('reddit.com');
+    tk.find_all_tabs_with_url();
+  });
 });
-
