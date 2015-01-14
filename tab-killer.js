@@ -22,11 +22,6 @@ TabKiller.get_url_counts = function(url){
 }
 
 TabKiller.prototype.kill = function(){
-  this.find_and_kill_tabs_with_url(this.url);
-}
-
-
-TabKiller.prototype.find_and_kill_tabs_with_url = function(){
   var query_info = {
     url:[
       'https://www.'+this.url+'/',
@@ -41,7 +36,7 @@ TabKiller.prototype.find_and_kill_tabs_with_url = function(){
      chrome.tabs.remove(tab.id);
    });
   });
-};
+}
 
 $(document).ready(function(){
   TabKiller.get_url_counts('reddit.com');
