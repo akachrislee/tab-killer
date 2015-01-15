@@ -5,12 +5,7 @@ var TabKiller = function(url){
 TabKiller.prototype.get_url_counts = function(){
   var url = this.url;
   var query_info = {
-    url:[
-      'https://www.'+url+'/',
-      'http://www.'+url+'/',
-      'https://'+url+'/',
-      'http://'+url+'/'
-    ]
+    url: this.generate_urls()
   }
 
   chrome.tabs.query(query_info, function(tabs){
@@ -24,12 +19,7 @@ TabKiller.prototype.get_url_counts = function(){
 
 TabKiller.prototype.kill = function(){
   var query_info = {
-    url:[
-      'https://www.'+this.url+'/',
-      'http://www.'+this.url+'/',
-      'https://'+this.url+'/',
-      'http://'+this.url+'/'
-    ]
+    url: this.generate_urls()
   }
 
   chrome.tabs.query(query_info, function(tabs){
@@ -37,6 +27,15 @@ TabKiller.prototype.kill = function(){
     chrome.tabs.remove(tab_ids);
   });
 }
+
+TabKiller.prototype.generate_urls = function() {
+  return [
+    'https://www.'+this.url+'/',
+    'http://www.'+this.url+'/',
+    'https://'+this.url+'/',
+    'http://'+this.url+'/'
+  ]
+};
 
 $(document).ready(function(){
   var reddit_tk = new TabKiller('reddit.com');
