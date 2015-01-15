@@ -2,7 +2,8 @@ var TabKiller = function(url){
   this.url = url;
 }
 
-TabKiller.get_url_counts = function(url){
+TabKiller.prototype.get_url_counts = function(){
+  var url = this.url;
   var query_info = {
     url:[
       'https://www.'+url+'/',
@@ -32,24 +33,23 @@ TabKiller.prototype.kill = function(){
   }
 
   chrome.tabs.query(query_info, function(tabs){
-   _.each(tabs, function(tab){
-     chrome.tabs.remove(tab.id);
-   });
+    var tab_ids = _.map(tabs, function(tab){ return tab.id; });
+    chrome.tabs.remove(tab_ids);
   });
 }
 
 $(document).ready(function(){
-  TabKiller.get_url_counts('reddit.com');
-  TabKiller.get_url_counts('news.ycombinator.com');
+  var reddit_tk = new TabKiller('reddit.com');
+  var hackernews_tk = new TabKiller('news.ycombinator.com');
+
+  reddit_tk.get_url_counts();
+  hackernews_tk.get_url_counts();
 
   $('.kill-reddit-js').on('click', function(e){
-    var tk = new TabKiller('reddit.com');
-    tk.kill();
+    reddit_tk.kill();
   });
 
   $('.kill-hn-js').on('click', function(e){
-    var tk = new TabKiller('news.ycombinator.com');
-    tk.kill();
-    TabKiller.get_url_counts('news.ycombinator.com');
+    hackernews_tk.kill();
   });
 });
